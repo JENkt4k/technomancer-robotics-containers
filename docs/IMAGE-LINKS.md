@@ -13,6 +13,7 @@
 
 - `technomancer-ros-base:jazzy`
 - `technomancer-ros-dev:jazzy`
+- `technomancer-ros-gazebo-cpu:jazzy-harmonic`
 - `technomancer-ros-gazebo-nvidia:jazzy-harmonic`
 - `technomancer-ros-ai-nvidia:jazzy-cuda`
 - `technomancer-ros-ai-cpu:jazzy`
