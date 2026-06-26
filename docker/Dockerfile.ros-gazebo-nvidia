@@ -1,0 +1,23 @@
+# technomancer-ros-gazebo-nvidia:jazzy-harmonic
+ARG BASE_IMAGE=technomancer-ros-dev:jazzy
+FROM ${BASE_IMAGE}
+
+USER root
+SHELL ["/bin/bash", "-c"]
+ENV NVIDIA_VISIBLE_DEVICES=all \
+    NVIDIA_DRIVER_CAPABILITIES=all
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    mesa-utils \
+    vulkan-tools \
+    ros-${ROS_DISTRO}-ros-gz \
+    ros-${ROS_DISTRO}-ros-gz-bridge \
+    ros-${ROS_DISTRO}-ros-gz-sim \
+    ros-${ROS_DISTRO}-ros-gz-image \
+    ros-${ROS_DISTRO}-xacro \
+    ros-${ROS_DISTRO}-robot-state-publisher \
+    ros-${ROS_DISTRO}-joint-state-publisher-gui \
+    && rm -rf /var/lib/apt/lists/*
+USER tm
+WORKDIR /workspace
+CMD ["bash"]

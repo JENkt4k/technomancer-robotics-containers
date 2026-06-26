@@ -1,0 +1,14 @@
+# technomancer-ros-ai-cpu:jazzy
+ARG BASE_IMAGE=technomancer-ros-base:jazzy
+FROM ${BASE_IMAGE}
+USER root
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3-pip python3-opencv python3-numpy \
+    ros-${ROS_DISTRO}-image-transport ros-${ROS_DISTRO}-vision-msgs \
+    && rm -rf /var/lib/apt/lists/*
+RUN python3 -m pip install --break-system-packages --no-cache-dir \
+    torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu \
+    onnx onnxruntime ultralytics transformers accelerate
+USER tm
+WORKDIR /workspace
+CMD ["bash"]

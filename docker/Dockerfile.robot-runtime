@@ -1,0 +1,14 @@
+# technomancer-robot-runtime:jazzy
+FROM ros:jazzy-ros-base
+SHELL ["/bin/bash", "-c"]
+ENV DEBIAN_FRONTEND=noninteractive ROS_DISTRO=jazzy LANG=C.UTF-8 LC_ALL=C.UTF-8
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    tini curl jq iproute2 iputils-ping python3-rosdep \
+    ros-${ROS_DISTRO}-robot-state-publisher \
+    ros-${ROS_DISTRO}-xacro \
+    ros-${ROS_DISTRO}-diagnostic-updater \
+    && rm -rf /var/lib/apt/lists/*
+WORKDIR /app
+COPY ./install /app/install
+ENTRYPOINT ["/usr/bin/tini", "--"]
+CMD ["bash", "-lc", "source /opt/ros/${ROS_DISTRO}/setup.bash && if [ -f /app/install/setup.bash ]; then source /app/install/setup.bash; fi && ros2 daemon start && bash"]

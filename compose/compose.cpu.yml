@@ -1,0 +1,27 @@
+services:
+  ros-dev:
+    image: technomancer-ros-dev:jazzy
+    network_mode: host
+    ipc: host
+    privileged: true
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+      - ROS_DOMAIN_ID=${ROS_DOMAIN_ID:-42}
+    volumes:
+      - ../workspace:/workspace
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+
+  ai-cpu:
+    image: technomancer-ros-ai-cpu:jazzy
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.ros-ai-cpu
+      args:
+        BASE_IMAGE: technomancer-ros-base:jazzy
+    network_mode: host
+    ipc: host
+    environment:
+      - ROS_DOMAIN_ID=${ROS_DOMAIN_ID:-42}
+    volumes:
+      - ../workspace:/workspace
