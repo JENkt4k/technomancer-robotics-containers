@@ -24,7 +24,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 RUN python3 -m pip install --break-system-packages --no-cache-dir \
-    torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu126 \
+    torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu126
+RUN python3 -m pip install --break-system-packages --no-cache-dir \
     onnx onnxruntime-gpu ultralytics transformers accelerate
 
 RUN rosdep init 2>/dev/null || true && rosdep update || true
