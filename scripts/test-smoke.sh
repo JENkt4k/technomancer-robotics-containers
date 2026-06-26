@@ -4,6 +4,17 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT"
 
+# prefer python3, fall back to python
+if command -v python3 >/dev/null 2>&1; then
+  PY=python3
+elif command -v python >/dev/null 2>&1; then
+  PY=python
+else
+  echo "Error: Python 3 is required but neither 'python3' nor 'python' were found in PATH."
+  echo "Install Python or run from an environment with Python available."
+  exit 1
+fi
+
 docker compose -f compose/compose.cpu.yml config >/dev/null
 docker compose -f compose/compose.nvidia.yml config >/dev/null
 
@@ -14,7 +25,7 @@ bash -n scripts/down.sh
 bash -n demo/turtlebot/run-demo.sh
 bash -n demo/turtlebot/smoke.sh
 
-python3 - <<'PY'
+"$PY" - <<'PY'
 import pathlib
 import xml.etree.ElementTree as ET
 
