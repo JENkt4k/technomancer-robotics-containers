@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 RUN python3 -m pip install --break-system-packages --no-cache-dir \
     torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu \
-    onnx onnxruntime ultralytics transformers accelerate
+    onnxruntime ultralytics transformers accelerate
 USER tm
 WORKDIR /workspace
 CMD ["bash"]
