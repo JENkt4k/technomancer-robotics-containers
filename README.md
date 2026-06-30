@@ -46,7 +46,8 @@ Technomancer TurtleBot demo is running.
 From another terminal, list ROS topics:
 
 ```bash
-docker compose -f compose/compose.cpu.yml exec turtlebot-demo ros2 topic list
+docker compose -f compose/compose.cpu.yml exec turtlebot-demo \
+  bash demo/turtlebot/ros2.sh topic list
 ```
 
 Expected topics include:
@@ -62,7 +63,8 @@ Publish a short velocity command:
 
 ```bash
 docker compose -f compose/compose.cpu.yml exec turtlebot-demo \
-  ros2 topic pub --once /model/tm_turtlebot/cmd_vel geometry_msgs/msg/Twist \
+  bash demo/turtlebot/ros2.sh topic pub --once \
+  model/tm_turtlebot/cmd_vel geometry_msgs/msg/Twist \
   "{linear: {x: 0.2}, angular: {z: 0.4}}"
 ```
 

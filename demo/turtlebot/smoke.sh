@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -eo pipefail
 
 source "/opt/ros/${ROS_DISTRO:-jazzy}/setup.bash"
+set -u
 
 WORLD="${TURTLEBOT_WORLD:-/workspace/demo/turtlebot/worlds/turtlebot_demo.sdf}"
 test -f "$WORLD"

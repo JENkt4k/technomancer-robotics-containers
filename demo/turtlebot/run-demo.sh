@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -eo pipefail
 
 source "/opt/ros/${ROS_DISTRO:-jazzy}/setup.bash"
+set -u
 
 WORLD="${TURTLEBOT_WORLD:-/workspace/demo/turtlebot/worlds/turtlebot_demo.sdf}"
 export ROS_DOMAIN_ID="${ROS_DOMAIN_ID:-42}"
@@ -29,8 +30,8 @@ cat <<'MSG'
 Technomancer TurtleBot demo is running.
 
 Useful commands from another terminal:
-  docker compose -f compose/compose.cpu.yml exec turtlebot-demo ros2 topic list
-  docker compose -f compose/compose.cpu.yml exec turtlebot-demo ros2 topic pub --once /model/tm_turtlebot/cmd_vel geometry_msgs/msg/Twist "{linear: {x: 0.2}, angular: {z: 0.4}}"
+  docker compose -f compose/compose.cpu.yml exec turtlebot-demo bash demo/turtlebot/ros2.sh topic list
+  docker compose -f compose/compose.cpu.yml exec turtlebot-demo bash demo/turtlebot/ros2.sh topic pub --once model/tm_turtlebot/cmd_vel geometry_msgs/msg/Twist "{linear: {x: 0.2}, angular: {z: 0.4}}"
 MSG
 
 wait "$GZ_PID" "$BRIDGE_PID"
