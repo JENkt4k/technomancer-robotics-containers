@@ -4,12 +4,19 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT"
 
-# prefer python3, fall back to python
-if command -v python3 >/dev/null 2>&1; then
-  PY=python3
-elif command -v python >/dev/null 2>&1; then
-  PY=python
-else
+# Prefer python3, but verify it is a working interpreter before using it.
+# On Windows, the Microsoft Store app alias may exist without Python installed
+# under that command name.
+PY=
+for candidate in python3 python; do
+  if command -v "$candidate" >/dev/null 2>&1 \
+    && "$candidate" -c 'import sys; raise SystemExit(sys.version_info < (3, 0))' >/dev/null 2>&1; then
+    PY=$candidate
+    break
+  fi
+done
+
+if [ -z "$PY" ]; then
   echo "Error: Python 3 is required but neither 'python3' nor 'python' were found in PATH."
   echo "Install Python or run from an environment with Python available."
   exit 1
